@@ -28,5 +28,37 @@ function welcomeACME() {
         for (i = 0; i < res.length; i++) {
             console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].department_name + " | " + res[i].price + " | " + res[i].stock_quantity);
         }
+
+        customerQuery();
     });
+
 } 
+
+function customerQuery() {
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "itemSelection",
+            message: "\nWhich product would you like to order (by Item ID)?"
+        },
+        {
+            type: "input",
+            name: "itemQuantity",
+            message: "\nHow many would you like to order?"
+        }
+    ]).then(function(cus) {
+        
+        var cusID = cus.itemSelection;
+        var cusQTY = cus.itemQuantity;
+
+        connection.query("SELECT product_name, price, stock_quantity FROM products WHERE item_id=?", [cusID], function(err, res) {
+            if (err) throw err;
+            // console.log(res);
+
+            var curQTY = res.stock_quantity;
+            if (curQTY >= cusQTY) {
+                console.log("You are ordering")
+            }
+        });
+    });
+}
