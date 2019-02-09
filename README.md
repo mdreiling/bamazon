@@ -9,7 +9,7 @@ Bamazon Storefront - Module 12 HW
 
 2: Draft Notes
 
-    2.1: Level One - Initial Wireframe
+    2.1: Level One - Customer Portal
 
         Needs: 
         
@@ -21,7 +21,7 @@ Bamazon Storefront - Module 12 HW
                     * price (cost to customer)
                     * stock_quantity (how much of the product is available in stores)
 
-            Node app - Customer mode (basic)
+            Node app - Customer mode
                 => Allows users to view full product listings, select item and quantity of items to purchase
                     If there are enough items in stock => Show user total needed to complete transaction and update stock quantity
                     If there are not enough items in stock => Inform user and let them make another choice/exit
@@ -54,3 +54,37 @@ Bamazon Storefront - Module 12 HW
 
         4. Updating stock =>
             If 3a occurs, update stock by initial stock - quantity ordered
+
+    2.2 Level Two - Manager Portal
+    
+        Needs: 
+
+            Node app - Manager mode 
+                => Allows a manager to view full product listings, view items with low inventory, add stock to current products, or add a new product
+
+        Use scenarios to address:
+
+        1.  View current products
+        2.  View items with low inventory
+        3.  Add stock to current products
+        4.  Add a new product
+
+        Pseudocoding:
+
+        Universial - app start with function called to finish all use scenarios
+        1. On app load =>
+            User prompted to select from list of options (use scenarios addressed above) - inquirer needed
+
+        US-1: Viewing Current Products
+        1. Pull current product database information and show on screen - mysql needed, get command of products then console.log info
+
+        US-2: View items with low inventory
+        1. Pull current product information for products with an quantity_stock less than 3
+
+        US-3: Adding stock to current products
+        1. Ask user which product (by item_id) they'd like to add stock. Also ask how much stock they'd like to add
+        2. Add submitted additional stock to existing stock - ask for confirmation before updating database
+
+        US-4: Adding stock to current products
+        1. Prompts asking for product name, department, price, and quantity in stock
+        2. Push submitted information to database as a new entry
