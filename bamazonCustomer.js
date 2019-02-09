@@ -20,9 +20,11 @@ connection.connect(function(err) {
 
 function welcomeACME() {    
     console.log("Welcome to ACME Corporation Online. Your one stop shop for all your Road Runner hunting needs.");
+    
+    // Pulling current product information
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
-        // console.log(res);
+
         console.log("\nProduct ID | Product Name | Department | Price | Quantity in Stock")
 
         for (i = 0; i < res.length; i++) {
@@ -35,34 +37,79 @@ function welcomeACME() {
 } 
 
 function customerQuery() {
+    console.log("\n");
+    
+    // Inquirer prompts for selecting product and quantity for order
     inquirer.prompt([
         {
             type: "input",
             name: "itemSelection",
-            message: "\nWhich product would you like to order (by Item ID)?"
+            message: "Which product would you like to order (by Item ID)?"
         },
         {
             type: "input",
             name: "itemQuantity",
-            message: "\nHow many would you like to order?"
+            message: "How many would you like to order?"
         }
     ]).then(function(cus) {
         
+        // Pushing customer selections onto variables for later comparisons
         var cusID = cus.itemSelection;
         var cusQTY = cus.itemQuantity;
 
-        connection.query("SELECT product_name, price, stock_quantity FROM products WHERE item_id=?", [cusID], function(err, res) {
-            if (err) throw err;
-            console.log(res);
-            console.log(res.stock_quantity);
-            var curQTY = res.stock_quantity;
-            console.log(curQTY);
-            var curPRC = res.price;
-            console.log(curPRC);
-            if (curQTY >= cusQTY) {
-                let total = curPRC * cusQTY;
-                console.log("You are ordering " + cusQTY + res.product_name + " for a total of $" + total);
+        // Setting up query for selecting product information
+        var query = "SELECT product_name, price, stock_quantity FROM products WHERE item_id=?"; 
 
+        connection.query(query, [cusID], function(err, res) {
+            // Throw error if the connection does not work.
+            if (err) throw err;
+
+            // Setting quantity and price variables for product that the customer selected.
+            var curQTY = res[0].stock_quantity;
+            var curPRC = res[0].price;
+
+            // If statement for checking if there is enough in stock to complete the order.
+            if (curQTY >= cusQTY) {
+                
+                // Calculating total
+                var total = curPRC * cusQTY;
+                
+                // Showing customer total of order
+                console.log("You are ordering " + cusQTY + " " + res[0].product_name + " for a total of $" + total);
+                
+                // Inquirer prompt to confirm order
+                inquirer.prompt([
+                    {
+                        type: "confirm",
+                        name: "orderConfirm",
+                        message: "Would you like to place this order?",
+                        default: false
+                    }
+                ]).then(function(confirm) {
+                    if (confirm.orderConfirm) {
+                        curQTY = curQTY - cusQTY;
+                        connection.query(
+                            "UPDATE products SET ? WHERE ?",
+                            [
+                              {
+                                stock_quantity: curQTY
+                              },
+                              {
+                                item_id: cusID
+                              }
+                            ],
+                            function(error) {
+                              if (error) throw err;
+                              console.log("\nYour order has been place successfully\n");
+                              welcomeACME();
+                            }
+                          );
+                    }
+                })
+            
+            } else {
+                console.log("We are currently do not have enough " + res[0].product_name + " in stock to complete your order. Please make another selection.")
+                welcomeACME();
             }
         });
     });
