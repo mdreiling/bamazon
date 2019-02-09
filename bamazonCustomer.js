@@ -104,6 +104,8 @@ function customerQuery() {
                               welcomeACME();
                             }
                           );
+                    } else {
+                        welcomeACME();
                     }
                 })
             
