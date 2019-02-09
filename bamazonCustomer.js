@@ -53,11 +53,16 @@ function customerQuery() {
 
         connection.query("SELECT product_name, price, stock_quantity FROM products WHERE item_id=?", [cusID], function(err, res) {
             if (err) throw err;
-            // console.log(res);
-
+            console.log(res);
+            console.log(res.stock_quantity);
             var curQTY = res.stock_quantity;
+            console.log(curQTY);
+            var curPRC = res.price;
+            console.log(curPRC);
             if (curQTY >= cusQTY) {
-                console.log("You are ordering")
+                let total = curPRC * cusQTY;
+                console.log("You are ordering " + cusQTY + res.product_name + " for a total of $" + total);
+
             }
         });
     });
