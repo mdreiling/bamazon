@@ -6,7 +6,7 @@ USE bamazon_db;
 
 CREATE TABLE products (
 	item_id INTEGER(11) auto_increment NOT NULL,
-	product_name VARCHAR(30) NOT NULL,
+	product_name VARCHAR(50) NOT NULL,
 	department_name VARCHAR(30) NOT NULL,
     price INTEGER(11) NOT NULL,
     stock_quantity INTEGER(11) NOT NULL,
@@ -15,6 +15,7 @@ CREATE TABLE products (
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES 
+('Indestructo Steel Ball', 'Home and Garden', 150, 15),
 ('Rocket-Powered Rollar Skates', 'Sports and Outdoors', 100, 10),
 ('Triple-Strength Fortified Leg Muscle Vitamins', 'Health', 25, 20),
 ('Female Road Runner Costume', 'Fashion', 55, 5),

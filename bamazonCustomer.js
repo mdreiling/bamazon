@@ -19,7 +19,14 @@ connection.connect(function(err) {
 });
 
 function welcomeACME() {    
-    console.log("Welcome to ACME Corporation Online. Your one stop shop for all your Road Runner hunting needs.")
+    console.log("Welcome to ACME Corporation Online. Your one stop shop for all your Road Runner hunting needs.");
+    connection.query("SELECT * FROM products", function(err, res) {
+        if (err) throw err;
+        // console.log(res);
+        console.log("\nProduct ID | Product Name | Department | Price | Quantity in Stock")
 
-    
+        for (i = 0; i < res.length; i++) {
+            console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].department_name + " | " + res[i].price + " | " + res[i].stock_quantity);
+        }
+    });
 } 
