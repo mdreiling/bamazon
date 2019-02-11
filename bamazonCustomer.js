@@ -55,7 +55,7 @@ function customerQuery() {
         
         // Pushing customer selections onto variables for later comparisons
         var cusID = cus.itemSelection;
-        var cusQTY = cus.itemQuantity;
+        var cusQTY = parseInt(cus.itemQuantity);
 
         // Setting up query for selecting product information
         var query = "SELECT product_name, price, stock_quantity FROM products WHERE item_id=?"; 
@@ -65,8 +65,8 @@ function customerQuery() {
             if (err) throw err;
 
             // Setting quantity and price variables for product that the customer selected.
-            var curQTY = res[0].stock_quantity;
-            var curPRC = res[0].price;
+            var curQTY = parseInt(res[0].stock_quantity);
+            var curPRC = parseInt(res[0].price);
 
             // If statement for checking if there is enough in stock to complete the order.
             if (curQTY >= cusQTY) {

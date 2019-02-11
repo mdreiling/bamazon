@@ -117,7 +117,7 @@ function addStock() {
          
         // Pushing manager selections onto variables for later comparisons
         var manID = stockAns.addStockProduct;
-        var manQTY = stockAns.addStockQuantity;
+        var manQTY = parseInt(stockAns.addStockQuantity);
 
         // Setting up query for selecting product information
         var query = "SELECT product_name, stock_quantity FROM products WHERE item_id=?"; 
@@ -126,7 +126,7 @@ function addStock() {
             // Throw error if the connection does not work.
             if (err) throw err;
  
-            var curQTY = res[0].stock_quantity;
+            var curQTY = parseInt(res[0].stock_quantity);
 
             // Show manager amount of increase
             console.log("You are adding " + manQTY + " to " + res[0].product_name);
