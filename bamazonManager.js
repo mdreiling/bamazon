@@ -28,7 +28,6 @@ function managerACME() {
         "Exit"
     ]
 
-
     // Inquirer prompt of list of options
     inquirer.prompt([
         {
@@ -106,12 +105,24 @@ function addStock() {
         {
             type: "input",
             name: "addStockProduct",
-            message: "Which product would you like to add stock to (by product ID)?"
+            message: "Which product would you like to add stock to (by product ID)?",
+            validate: function(value) {
+                if (isNaN(value) === false) {
+                  return true;
+                }
+                return false;
+              }
         },
         {
             type: "input",
             name: "addStockQuantity",
-            message: "How much would like to increase the stock by?"
+            message: "How much would like to increase the stock by?",
+            validate: function(value) {
+                if (isNaN(value) === false) {
+                  return true;
+                }
+                return false;
+              }
         }
     ]).then(function(stockAns) {
          
@@ -128,15 +139,15 @@ function addStock() {
  
             var curQTY = parseInt(res[0].stock_quantity);
 
-            // Show manager amount of increase
-            console.log("You are adding " + manQTY + " to " + res[0].product_name);
+            // Show manager amount of they are increasing stock by for confirmation
+            console.log("You are adding " + manQTY + res[0].product_name + " to stock" );
         
-            // Inquirer prompt to confirm order
+            // Inquirer prompt to confirm addition of stock
             inquirer.prompt([
                 {
                     type: "confirm",
                     name: "stockConfirm",
-                    message: "Would you like to add this stock?",
+                    message: "Would you like to add these products to our stock?",
                     default: false
                 }
             ]).then(function(confirm) {
@@ -169,6 +180,74 @@ function addStock() {
 }
 
 function addProduct() {
-    console.log("Add a New Product");
-    managerACME();
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "productName",
+            message: "What is the name of the product you would like to add?"
+        },
+        {
+            type: "input",
+            name: "departmentName",
+            message: "Which department does this product go in?"
+        },
+        {
+            type: "input",
+            name: "productPrice",
+            message: "What is the price to customer for this product?",
+            validate: function(value) {
+                if (isNaN(value) === false) {
+                  return true;
+                }
+                return false;
+              }
+        },
+        {
+            type: "input",
+            name: "initialStock",
+            message: "What is the initial stock for this product?",
+            validate: function(value) {
+                if (isNaN(value) === false) {
+                  return true;
+                }
+                return false;
+              }
+        }
+    ]).then(function(newPro) {
+        
+        var newProName = newPro.productName;
+        var newProDep = newPro.departmentName;
+        var newProPrice = newPro.productPrice;
+        var newProStock = newPro.initialStock;
+
+        console.log("You are adding the product " + newProName + " to " + newProDep + " with a price of " + newProPrice + " and an initial stock of " + newProStock)
+        
+        inquirer.prompt([
+            {
+                type: "confirm",
+                name: "productConfirm",
+                message: "Would you like to add this new product to our inventory?",
+                default: false
+            }
+        ]).then(function(confirm) {
+            if (confirm.productConfirm) {
+                connection.query(
+                    "INSERT INTO products SET ?",
+                    {
+                      product_name: newProName,
+                      department_name: newProDep,
+                      price: newProPrice,
+                      stock_quantity: newProStock
+                    },
+                    function(error) {
+                      if (error) throw err;
+                      console.log("\nThe new product has been added\n");
+                      managerACME();
+                    }
+                );
+            } else {
+                managerACME();
+            }
+        })
+    })
 }

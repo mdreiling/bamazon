@@ -44,12 +44,24 @@ function customerQuery() {
         {
             type: "input",
             name: "itemSelection",
-            message: "Which product would you like to order (by Item ID)?"
+            message: "Which product would you like to order (by Item ID)?",
+            validate: function(value) {
+                if (isNaN(value) === false) {
+                  return true;
+                }
+                return false;
+              }
         },
         {
             type: "input",
             name: "itemQuantity",
-            message: "How many would you like to order?"
+            message: "How many would you like to order?",
+            validate: function(value) {
+                if (isNaN(value) === false) {
+                  return true;
+                }
+                return false;
+              }
         }
     ]).then(function(cus) {
         
