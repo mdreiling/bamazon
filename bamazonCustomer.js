@@ -70,7 +70,7 @@ function customerQuery() {
         var cusQTY = parseInt(cus.itemQuantity);
 
         // Setting up query for selecting product information
-        var query = "SELECT product_name, price, stock_quantity FROM products WHERE item_id=?"; 
+        var query = "SELECT product_name, price, stock_quantity, product_sales FROM products WHERE item_id=?"; 
 
         connection.query(query, [cusID], function(err, res) {
             // Throw error if the connection does not work.
@@ -79,15 +79,17 @@ function customerQuery() {
             // Setting quantity and price variables for product that the customer selected.
             var curQTY = parseInt(res[0].stock_quantity);
             var curPRC = parseInt(res[0].price);
+            var curSAL = parseInt(res[0].product_sales)
 
             // If statement for checking if there is enough in stock to complete the order.
             if (curQTY >= cusQTY) {
                 
                 // Calculating total
                 var total = curPRC * cusQTY;
+                var productSales = curSAL + total;
                 
                 // Showing customer total of order
-                console.log("You are ordering " + cusQTY + " " + res[0].product_name + " for a total of $" + total);
+                console.log("\nYou are ordering " + cusQTY + " " + res[0].product_name + " for a total of $" + total);
                 
                 // Inquirer prompt to confirm order
                 inquirer.prompt([
@@ -104,7 +106,8 @@ function customerQuery() {
                             "UPDATE products SET ? WHERE ?",
                             [
                               {
-                                stock_quantity: curQTY
+                                stock_quantity: curQTY,
+                                product_sales: productSales
                               },
                               {
                                 item_id: cusID
@@ -112,7 +115,9 @@ function customerQuery() {
                             ],
                             function(error) {
                               if (error) throw err;
-                              console.log("\nYour order has been place successfully\n");
+                              console.log("\nYour order has been place successfully");
+                              console.log("\n----------------------------------------------");
+
                               welcomeACME();
                             }
                           );

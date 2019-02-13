@@ -5,13 +5,18 @@ CREATE DATABASE bamazon_db;
 USE bamazon_db;
 
 CREATE TABLE products (
-	item_id INTEGER(11) auto_increment NOT NULL,
+    item_id INTEGER(11) auto_increment NOT NULL,
 	product_name VARCHAR(50) NOT NULL,
 	department_name VARCHAR(30) NOT NULL,
     price INTEGER(11) NOT NULL,
     stock_quantity INTEGER(11) NOT NULL,
     primary key (item_id)
 );
+
+ALTER TABLE products 
+	ADD product_sales INTEGER(11) NOT NULL;
+
+
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES 
@@ -28,3 +33,22 @@ VALUES
 ;
 
 SELECT * FROM products;
+
+CREATE TABLE departments (
+    item_id INTEGER(11) auto_increment NOT NULL,
+	department_name VARCHAR(30) NOT NULL,
+	overhead_costs INTEGER NOT NULL,
+    primary key (item_id)
+);
+
+INSERT INTO departments (department_name, overhead_costs)
+VALUES 
+('Fashion', 2623.75),
+('Food and Beverage', 2725),
+('Health', 2725),
+('Home and Garden', 4401.25),
+('Office', 2950),
+('Sports and Outdoors', 5537.5)
+;
+
+SELECT * FROM departments;
