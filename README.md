@@ -1,6 +1,22 @@
 # bamazon
 Bamazon Storefront - Module 12 HW
 
+0: Product Summary
+
+    0.1: Customer Portal - [Using the Customer Portal](/bamazonCustomer.mp4)
+
+        In the Customer Portal the user is first shown the full list of products available for purchase. Then the user is prompted to select a product to order, then indicate the quantity that they would like to order. After this, the user is shown their order including total and asked to confirm their purchase. After they confirm their purchase, they are taken to the product listing screen.
+
+        If there are not enough products to complete their order, they are told this and taken back to the product listing screen.
+
+    0.2: Manager Portal - [Using the Manager Portal](/bamazonManager.mp4)
+
+        In the Manager Portal the user is first prompted with five options: Check all products, Check Products with low stock, Add stock to an existing product, Add a new product, or exit. 
+        
+        In the example in the video, the manager first checks which products have low stock and is shown that there is one product with a low inventory. The manager is then taken back to the initial prompt where they then decide to restock this item. The prompt asks for the product number and the amount of new stock the manager would like to add, is then shown these numbers and asked to confirm. Once they confirm the stock the manager is taken back to the intiial prompt screen and in this case, chooses to check all of the products to make sure that the stock has been updated.
+
+        In this example the manager then decides to add a new product. The manager is prompted to submit a name, department, price, and initial stock quantity. After they submit this information, they are shown it back and asked to confirm it. Once confirmed they are taken back to the initial prompt screen and decide to check to see if the stock has been updated.
+
 1: Introduction
 
     1.1: Basic Instructions

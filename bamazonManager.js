@@ -239,8 +239,8 @@ function addProduct() {
                       price: newProPrice,
                       stock_quantity: newProStock
                     },
-                    function(error) {
-                      if (error) throw err;
+                    function(err) {
+                      if (err) throw err;
                       console.log("\nThe new product has been added\n");
                       managerACME();
                     }
